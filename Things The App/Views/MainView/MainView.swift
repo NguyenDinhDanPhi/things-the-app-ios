@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct MainView: View {
-  @State  var data = ["Hello, world!", "This", "is", "a list view.","1","2"]
-    
+    @State private var selectedIndex: Int?
+    @ObservedObject var netWorking = NetworkingManager()
+
     var body: some View {
         VStack {
             ZStack{
@@ -20,8 +21,8 @@ struct MainView: View {
                     .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                     .offset(x: -75)
                     .scaleEffect(x:2.9, y: 2.5)
-
-
+                
+                
                 HStack {
                     Text("THINGS \n The Apps")
                         .foregroundColor(.white)
@@ -32,18 +33,20 @@ struct MainView: View {
                 }
             }
             Spacer()
-            List {
-                ForEach(data, id: \.self) { i in
-                    LoginRowView(test: i)
+            List(netWorking.users) { user in
+                LoginRowView(title: user.login )
                         .listRowSeparator(.hidden)
                         .padding(1)
-                    
-                }
-                
+                        .onTapGesture {
+                        }
             }
             .frame(height: 400)
+            .scrollContentBackground(.visible)
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
+            .onAppear {
+                netWorking.fetchData()
+            }
             
             Spacer()
             ZStack {
@@ -54,7 +57,7 @@ struct MainView: View {
                     .offset(x: 75)
                     .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
                     .scaleEffect(x:2.9, y: 2.5)
-
+                
                 HStack{
                     Spacer()
                     Button {

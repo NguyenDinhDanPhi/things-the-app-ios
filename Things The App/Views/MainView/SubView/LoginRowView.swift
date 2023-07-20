@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct LoginRowView: View {
-    let test: String
+    let title: String
     var body: some View {
         HStack(alignment: .center) {
-            Text(test)
+            Text(title)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
+               
+
         }
         .frame(width: UIScreen.main.bounds.width/1.1,height: 60)
         .background(.orange)
@@ -25,7 +27,7 @@ struct LoginRowView: View {
 
 struct LoginRowView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginRowView(test: "test")
+        LoginRowView(title: "test")
             .previewLayout(.sizeThatFits)
     }
 }
