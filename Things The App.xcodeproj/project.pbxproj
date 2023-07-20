@@ -11,7 +11,6 @@
 		D095BDAA2A68DAEF0041526F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095BDA92A68DAEF0041526F /* MainView.swift */; };
 		D095BDAC2A68DAF00041526F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D095BDAB2A68DAF00041526F /* Assets.xcassets */; };
 		D095BDAF2A68DAF00041526F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D095BDAE2A68DAF00041526F /* Preview Assets.xcassets */; };
-		D095BDB72A68DFD30041526F /* LoginRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095BDB62A68DFD30041526F /* LoginRowView.swift */; };
 		D095BDBC2A691ABB0041526F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095BDBB2A691ABB0041526F /* User.swift */; };
 		D095BDBF2A691B9F0041526F /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095BDBE2A691B9F0041526F /* NetworkingManager.swift */; };
 /* End PBXBuildFile section */
@@ -22,7 +21,6 @@
 		D095BDA92A68DAEF0041526F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		D095BDAB2A68DAF00041526F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D095BDAE2A68DAF00041526F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D095BDB62A68DFD30041526F /* LoginRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRowView.swift; sourceTree = "<group>"; };
 		D095BDBB2A691ABB0041526F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D095BDBE2A691B9F0041526F /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,7 +93,6 @@
 		D095BDB92A690D060041526F /* SubView */ = {
 			isa = PBXGroup;
 			children = (
-				D095BDB62A68DFD30041526F /* LoginRowView.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -190,7 +187,6 @@
 				D095BDAA2A68DAEF0041526F /* MainView.swift in Sources */,
 				D095BDA82A68DAEF0041526F /* Things_The_AppApp.swift in Sources */,
 				D095BDBF2A691B9F0041526F /* NetworkingManager.swift in Sources */,
-				D095BDB72A68DFD30041526F /* LoginRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

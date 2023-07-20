@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var selectedItems: Set<User> = []
     @State private var selectedIndex: Int?
     @ObservedObject var netWorking = NetworkingManager()
+    @State var isSelected = false
+    let items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
 
     var body: some View {
         VStack {
@@ -34,11 +37,16 @@ struct MainView: View {
             }
             Spacer()
             List(netWorking.users) { user in
-                LoginRowView(title: user.login )
-                        .listRowSeparator(.hidden)
-                        .padding(1)
-                        .onTapGesture {
-                        }
+                LoginUserRow(title: user.login, isSelected: self.selectedItems.contains(user)) {
+                    if self.selectedItems.contains(user) {
+                        self.selectedItems.remove(user)
+                    } else {
+                        self.selectedItems.insert(user)
+                    }
+                }
+                .padding(1)
+                .listRowSeparator(.hidden)
+
             }
             .frame(height: 400)
             .scrollContentBackground(.visible)
@@ -82,5 +90,31 @@ struct MainView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+    }
+}
+struct LoginUserRow: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: {
+            self.action()
+        }) {
+            HStack {
+                Spacer()
+                Text(title)
+                Spacer()
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.accentColor)
+                }
+            }
+            .padding()
+            .contentShape(Rectangle())
+        }
+        .frame(width: UIScreen.main.bounds.width/1.1,height: 60)
+        .background(.orange)
+        .cornerRadius(10)
     }
 }
