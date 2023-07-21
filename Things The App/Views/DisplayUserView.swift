@@ -1,18 +1,14 @@
 //
-//  ContentView.swift
+//  DisplayUserView.swift
 //  Things The App
 //
-//  Created by dan phi on 20/07/2023.
+//  Created by dan phi on 21/07/2023.
 //
 
 import SwiftUI
 
-struct MainView: View {
-    @State private var selectedItems: Set<User> = []
-    @State private var selectedIndex: Int?
+struct DisplayUserView: View {
     @ObservedObject var netWorking = NetworkingManager()
-    @State var isSelected = false
-    @State var isShowNewScreen = false
 
     var body: some View {
         VStack {
@@ -36,24 +32,21 @@ struct MainView: View {
                 }
             }
             Spacer()
-            List(netWorking.users) { user in
-                LoginUserRow(title: user.login, isSelected: self.selectedItems.contains(user)) {
-                    if self.selectedItems.contains(user) {
-                        self.selectedItems.remove(user)
-                    } else {
-                        self.selectedItems.insert(user)
+            HStack {
+                List(netWorking.users) { user in
+                    LoginUserRow(title: user.login, isSelected: false) {
+                     
                     }
-                }
-                .listRowSeparator(.hidden)
-                .cornerRadius(10)
+                    .cornerRadius(10)
+                    .listRowSeparator(.hidden)
 
-            }
-            .frame(height: 400)
-            .scrollContentBackground(.visible)
-            .listStyle(PlainListStyle())
-            .scrollIndicators(.hidden)
-            .onAppear {
-                netWorking.fetchData()
+                    
+                }
+                .frame(width: 230,height: 400)
+                .scrollContentBackground(.visible)
+                .listStyle(PlainListStyle())
+                .scrollIndicators(.hidden)
+                Spacer()
             }
             
             Spacer()
@@ -69,7 +62,7 @@ struct MainView: View {
                 HStack{
                     Spacer()
                     Button {
-                        isShowNewScreen.toggle()
+                        
                     } label: {
                         Text("Next")
                         
@@ -79,9 +72,6 @@ struct MainView: View {
                     .frame(width: 180)
                     .background(.brown)
                     .cornerRadius(10)
-                    .fullScreenCover(isPresented: $isShowNewScreen) {
-                        DisplayUserView()
-                    }
                 }
                 .padding()
             }
@@ -90,9 +80,8 @@ struct MainView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct DisplayUserView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        DisplayUserView()
     }
 }
-
