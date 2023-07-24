@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct MainView: View {
+    @State var userChosen: [User] = []
     @State private var selectedItems: Set<User> = []
     @State private var selectedIndex: Int?
     @ObservedObject var netWorking = NetworkingManager()
     @State var isSelected = false
     @State var isShowNewScreen = false
+    @State var isEnableButton = false
 
     var body: some View {
         VStack {
@@ -40,13 +42,16 @@ struct MainView: View {
                 LoginUserRow(title: user.login, isSelected: self.selectedItems.contains(user)) {
                     if self.selectedItems.contains(user) {
                         self.selectedItems.remove(user)
+                        userChosen.removeAll { $0 == user }
+
                     } else {
                         self.selectedItems.insert(user)
+                        userChosen.append(user)
                     }
                 }
                 .listRowSeparator(.hidden)
+                .frame(height: 50)
                 .cornerRadius(10)
-
             }
             .frame(height: 400)
             .scrollContentBackground(.visible)
@@ -77,10 +82,11 @@ struct MainView: View {
                     .padding()
                     .foregroundColor(.black)
                     .frame(width: 180)
-                    .background(.brown)
+                    .background(selectedItems.isEmpty ? Color(.brown) : Color.white)
                     .cornerRadius(10)
+                    .disabled(selectedItems.isEmpty)
                     .fullScreenCover(isPresented: $isShowNewScreen) {
-                        DisplayUserView()
+                        DisplayUserView(userChosen: userChosen)
                     }
                 }
                 .padding()

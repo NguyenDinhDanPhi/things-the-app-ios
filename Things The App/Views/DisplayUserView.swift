@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct DisplayUserView: View {
-    @ObservedObject var netWorking = NetworkingManager()
-
+    var userChosen: [User] = [User(login: "haha"), User(login: "hehe")]
+    @State private var count = 3
+    @State private var isCounting = false
     var body: some View {
-        VStack {
+        
+        var randomIndex = Int.random(in: 0..<userChosen.count)
+        return VStack {
             ZStack{
                 Image("background")
                     .resizable()
@@ -32,22 +35,53 @@ struct DisplayUserView: View {
                 }
             }
             Spacer()
-            HStack {
-                List(netWorking.users) { user in
+            HStack(alignment: .top) {
+                List(userChosen) { user in
                     LoginUserRow(title: user.login, isSelected: false) {
                      
                     }
                     .cornerRadius(10)
                     .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
 
                     
                 }
-                .frame(width: 230,height: 400)
+                .frame(width: 230,height: 450)
                 .scrollContentBackground(.visible)
                 .listStyle(PlainListStyle())
                 .scrollIndicators(.hidden)
-                Spacer()
+
+                
+                VStack(alignment: .center) {
+                    Text("Chosen Thing: ")
+                        .font(.system(size: 16,weight: .medium))
+                        .foregroundColor(.white)
+                    if count > 0 {
+                        Text("\(count)")
+                            .font(.system(size: 29,weight: .semibold))
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                        
+                    } else {
+                        Text(userChosen[randomIndex].login)
+                            .font(.system(size: 29,weight: .semibold))
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                           
+                   
+                    }
+                }
+               
+                .padding()
+                .background(.orange)
+                .cornerRadius(10)
+                .offset(y: 35)
+                .frame(height: 150)
+
             }
+            .offset(y: 15)
+            
+
             
             Spacer()
             ZStack {
@@ -64,7 +98,7 @@ struct DisplayUserView: View {
                     Button {
                         
                     } label: {
-                        Text("Next")
+                        Text("Back")
                         
                     }
                     .padding()
@@ -77,7 +111,22 @@ struct DisplayUserView: View {
             }
         }
         .ignoresSafeArea(.all)
+        .onAppear {
+            startCountdown()
+        }
     }
+    func startCountdown() {
+            count = 3
+            
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+                if count > 0 {
+                    count -= 1
+                } else {
+                    isCounting = false
+                    timer.invalidate()
+                }
+            }
+        }
 }
 
 struct DisplayUserView_Previews: PreviewProvider {

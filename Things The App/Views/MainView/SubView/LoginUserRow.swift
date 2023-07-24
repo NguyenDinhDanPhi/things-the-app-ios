@@ -19,10 +19,16 @@ struct LoginUserRow: View {
             HStack {
                 Spacer()
                 Text(title)
+                    .foregroundColor(.white)
+                    .font(.title)
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .scaledToFit()
                         .foregroundColor(.secondary)
+                        .frame(width: 25,height: 25)
+                        .padding(.trailing,10)
                 }
             }
             .frame(height: 50)
