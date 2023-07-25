@@ -15,7 +15,7 @@ struct MainView: View {
     @State var isSelected = false
     @State var isShowNewScreen = false
     @State var isEnableButton = false
-
+    
     var body: some View {
         VStack {
             ZStack{
@@ -38,25 +38,29 @@ struct MainView: View {
                 }
             }
             Spacer()
-            List(netWorking.users) { user in
-                LoginUserRow(title: user.login, isSelected: self.selectedItems.contains(user)) {
-                    if self.selectedItems.contains(user) {
-                        self.selectedItems.remove(user)
-                        userChosen.removeAll { $0 == user }
-
-                    } else {
-                        self.selectedItems.insert(user)
-                        userChosen.append(user)
+                List(netWorking.users) { user in
+                    LoginUserRow(title: user.login, isSelected: self.selectedItems.contains(user)) {
+                        if self.selectedItems.contains(user) {
+                            self.selectedItems.remove(user)
+                            userChosen.removeAll { $0 == user }
+                            
+                        } else {
+                            self.selectedItems.insert(user)
+                            userChosen.append(user)
+                        }
                     }
+                    .listRowSeparator(.hidden)
+                    .frame(height: 50)
+                    .cornerRadius(10)
                 }
-                .listRowSeparator(.hidden)
-                .frame(height: 50)
-                .cornerRadius(10)
-            }
-            .frame(height: 400)
-            .scrollContentBackground(.visible)
-            .listStyle(PlainListStyle())
-            .scrollIndicators(.hidden)
+                .frame(height: 400)
+                .scrollContentBackground(.visible)
+                .listStyle(PlainListStyle())
+                .scrollIndicators(.hidden)
+                .overlay {
+                    Rectangle()
+                        .opacity(0.5)
+                }
             .onAppear {
                 netWorking.fetchData()
             }

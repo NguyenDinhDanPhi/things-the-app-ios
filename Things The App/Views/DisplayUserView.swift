@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DisplayUserView: View {
     var userChosen: [User] = [User(login: "haha"), User(login: "hehe")]
+    @Environment(\.dismiss) var dismiss
     @State private var count = 3
     @State private var isCounting = false
     var body: some View {
@@ -38,19 +39,19 @@ struct DisplayUserView: View {
             HStack(alignment: .top) {
                 List(userChosen) { user in
                     LoginUserRow(title: user.login, isSelected: false) {
-                     
+                        
                     }
                     .cornerRadius(10)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-
+                    
                     
                 }
                 .frame(width: 230,height: 450)
                 .scrollContentBackground(.visible)
                 .listStyle(PlainListStyle())
                 .scrollIndicators(.hidden)
-
+                
                 
                 VStack(alignment: .center) {
                     Text("Chosen Thing: ")
@@ -67,21 +68,21 @@ struct DisplayUserView: View {
                             .font(.system(size: 29,weight: .semibold))
                             .foregroundColor(.white)
                             .padding(.vertical)
-                           
-                   
+                            .opacity(isCounting ? 1.0 : 0.0) // Hiệu ứng làm mờ chữ "Go"
+                            .animation(.easeIn)
                     }
                 }
-               
+                
                 .padding()
                 .background(.orange)
                 .cornerRadius(10)
                 .offset(y: 35)
                 .frame(height: 150)
-
+                
             }
             .offset(y: 15)
             
-
+            
             
             Spacer()
             ZStack {
@@ -96,7 +97,7 @@ struct DisplayUserView: View {
                 HStack{
                     Spacer()
                     Button {
-                        
+                      dismiss()
                     } label: {
                         Text("Back")
                         
@@ -116,19 +117,20 @@ struct DisplayUserView: View {
         }
     }
     func startCountdown() {
-            count = 3
-            
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-                if count > 0 {
-                    count -= 1
-                } else {
-                    isCounting = false
-                    timer.invalidate()
+        count = 3
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if count > 0 {
+                count -= 1
+            } else {
+                withAnimation {
+                    isCounting = true // Kích hoạt hiệu ứng làm mờ và hiển thị chữ "Go"
                 }
+                timer.invalidate() // Dừng timer khi đếm ngược hoàn tất
             }
         }
+    }
 }
-
 struct DisplayUserView_Previews: PreviewProvider {
     static var previews: some View {
         DisplayUserView()
