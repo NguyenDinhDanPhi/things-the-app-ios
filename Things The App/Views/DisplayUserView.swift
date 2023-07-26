@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DisplayUserView: View {
-    var userChosen: [User] = [User(login: "haha"), User(login: "hehe")]
+    var userChosen: [User] = [User(login: "madaidesodai1"), User(login: "madaidesodai")]
     @Environment(\.dismiss) var dismiss
     @State private var count = 3
     @State private var isCounting = false
     var body: some View {
         
-        var randomIndex = Int.random(in: 0..<userChosen.count)
+        let randomIndex = Int.random(in: 0..<userChosen.count)
         return VStack {
             ZStack{
                 Image("background")
@@ -46,41 +46,55 @@ struct DisplayUserView: View {
                     .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
                     
                     
+                    
                 }
-                .frame(width: 200,height: 450)
+                .frame(width: 200)
+                .frame(maxHeight: 400)
                 .scrollContentBackground(.visible)
                 .listStyle(PlainListStyle())
                 .scrollIndicators(.hidden)
+                .mask {
+                    Rectangle()
+                        .fill(LinearGradient(gradient: Gradient(colors: [ .white,.clear  ]), startPoint: .top, endPoint: .bottom))
+
+                }
+
                 
                 
                 VStack(alignment: .center) {
                     Text("Chosen Thing: ")
                         .font(.system(size: 16,weight: .medium))
                         .foregroundColor(.white)
+                        .offset(y: -30)
                     if count > 0 {
                         Text("\(count)")
                             .font(.system(size: 29,weight: .semibold))
                             .foregroundColor(.white)
                             .padding(.vertical)
+                            .offset(y: -30)
                         
                     } else {
                         Text(userChosen[randomIndex].login)
                             .font(.system(size: 23,weight: .bold))
+                            .multilineTextAlignment(.center)
                             .foregroundColor(.white)
                             .lineLimit(2)
-                            .padding(.vertical)
-                            .opacity(isCounting ? 1.0 : 0.0) // Hiệu ứng làm mờ chữ "Go"
-                            .animation(.easeIn)
+                            .padding(.vertical,20)
+                            .opacity(isCounting ? 1.0 : 0.0)
+                            .offset(y: -30)
+                            
+                            
+
                     }
                 }
                 .padding()
+                .offset(y: 35)
+                .frame(width: 168,height: 150)
                 .background(.orange)
                 .cornerRadius(10)
-                .offset(y: 35)
-                .frame(width: 150,height: 150)
-                
             }
-            .offset(y: 15)
+            .padding()
+            .offset(y: 27)
             
             
             
@@ -119,14 +133,14 @@ struct DisplayUserView: View {
     func startCountdown() {
         count = 3
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+        Timer.scheduledTimer(withTimeInterval: 0.7, repeats: true) { timer in
             if count > 0 {
                 count -= 1
             } else {
                 withAnimation {
-                    isCounting = true // Kích hoạt hiệu ứng làm mờ và hiển thị chữ "Go"
+                    isCounting = true
                 }
-                timer.invalidate() // Dừng timer khi đếm ngược hoàn tất
+                timer.invalidate()
             }
         }
     }

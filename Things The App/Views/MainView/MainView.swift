@@ -59,6 +59,11 @@ struct MainView: View {
             .onAppear {
                 netWorking.fetchData()
             }
+            .mask {
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [ .white,.white,.clear  ]), startPoint: .top, endPoint: .bottom))
+
+            }
             Spacer()
             ZStack {
                 Image("background")
