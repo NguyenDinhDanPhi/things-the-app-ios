@@ -7,7 +7,7 @@
 
 import Foundation
 class NetworkingManager: ObservableObject {
-    @Published  var users = [User]()
+    @Published  var users: [User] = []
 
     func fetchData() {
         if let url = URL(string: "https://api.github.com/users") {

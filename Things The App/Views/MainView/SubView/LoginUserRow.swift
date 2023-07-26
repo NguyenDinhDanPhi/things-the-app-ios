@@ -16,23 +16,28 @@ struct LoginUserRow: View {
         Button(action: {
             self.action()
         }) {
-            HStack {
+            HStack{
                 Spacer()
-                Text(title)
-                    .foregroundColor(.white)
-                    .font(.title)
-                Spacer()
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(.secondary)
-                        .frame(width: 25,height: 25)
-                        .padding(.trailing,10)
+                ZStack {
+                    Spacer()
+                    Text(title)
+                        .foregroundColor(.white)
+                        .font(.title)
+                    Spacer()
+                    if isSelected {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.secondary)
+                            .frame(width: 25,height: 25)
+                            .padding(.trailing,10)
+                            .offset(x: 150)
+                    }
                 }
+                .frame(height: 50)
+                .contentShape(Rectangle())
+                Spacer()
             }
-            .frame(height: 50)
-            .contentShape(Rectangle())
         }
         .background(.orange)
     }}

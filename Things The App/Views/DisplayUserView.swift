@@ -36,7 +36,7 @@ struct DisplayUserView: View {
                 }
             }
             Spacer()
-            HStack(alignment: .top) {
+            HStack(alignment: .top) {   
                 List(userChosen) { user in
                     LoginUserRow(title: user.login, isSelected: false) {
                         
@@ -47,7 +47,7 @@ struct DisplayUserView: View {
                     
                     
                 }
-                .frame(width: 230,height: 450)
+                .frame(width: 200,height: 450)
                 .scrollContentBackground(.visible)
                 .listStyle(PlainListStyle())
                 .scrollIndicators(.hidden)
@@ -65,19 +65,19 @@ struct DisplayUserView: View {
                         
                     } else {
                         Text(userChosen[randomIndex].login)
-                            .font(.system(size: 29,weight: .semibold))
+                            .font(.system(size: 23,weight: .bold))
                             .foregroundColor(.white)
+                            .lineLimit(2)
                             .padding(.vertical)
                             .opacity(isCounting ? 1.0 : 0.0) // Hiệu ứng làm mờ chữ "Go"
                             .animation(.easeIn)
                     }
                 }
-                
                 .padding()
                 .background(.orange)
                 .cornerRadius(10)
                 .offset(y: 35)
-                .frame(height: 150)
+                .frame(width: 150,height: 150)
                 
             }
             .offset(y: 15)
