@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct MainView: View {
-  @State  var data = ["Hello, world!", "This", "is", "a list view.","1","2"]
+    @State var userChosen: [User] = []
+    @State private var selectedItems: Set<User> = []
+    @State private var selectedIndex: Int?
+    @ObservedObject var netWorking = NetworkingManager()
+    @State var isSelected = false
+    @State var isShowNewScreen = false
+    @State var isEnableButton = false
     
     var body: some View {
         VStack {
@@ -20,8 +26,8 @@ struct MainView: View {
                     .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                     .offset(x: -75)
                     .scaleEffect(x:2.9, y: 2.5)
-
-
+                
+                
                 HStack {
                     Text("THINGS \n The Apps")
                         .foregroundColor(.white)
@@ -32,19 +38,32 @@ struct MainView: View {
                 }
             }
             Spacer()
-            List {
-                ForEach(data, id: \.self) { i in
-                    LoginRowView(test: i)
-                        .listRowSeparator(.hidden)
-                        .padding(1)
-                    
+            List(netWorking.users) { user in
+                LoginUserRow(title: user.login, isSelected: self.selectedItems.contains(user)) {
+                    if self.selectedItems.contains(user) {
+                        self.selectedItems.remove(user)
+                        userChosen.removeAll { $0 == user }
+                    } else {
+                        self.selectedItems.insert(user)
+                        userChosen.append(user)
+                    }
                 }
-                
+                .listRowSeparator(.hidden)
+                .frame(height: 50)
+                .cornerRadius(10)
             }
             .frame(height: 400)
+            .scrollContentBackground(.visible)
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
-            
+            .onAppear {
+                netWorking.fetchData()
+            }
+            .mask {
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [ .white,.white,.clear  ]), startPoint: .top, endPoint: .bottom))
+
+            }
             Spacer()
             ZStack {
                 Image("background")
@@ -54,11 +73,11 @@ struct MainView: View {
                     .offset(x: 75)
                     .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
                     .scaleEffect(x:2.9, y: 2.5)
-
+                
                 HStack{
                     Spacer()
                     Button {
-                        
+                        isShowNewScreen.toggle()
                     } label: {
                         Text("Next")
                         
@@ -66,8 +85,12 @@ struct MainView: View {
                     .padding()
                     .foregroundColor(.black)
                     .frame(width: 180)
-                    .background(.brown)
+                    .background(selectedItems.isEmpty ? Color(.brown) : Color.white)
                     .cornerRadius(10)
+                    .disabled(selectedItems.isEmpty)
+                    .fullScreenCover(isPresented: $isShowNewScreen) {
+                        DisplayUserView(userChosen: userChosen)
+                    }
                 }
                 .padding()
             }
@@ -81,3 +104,4 @@ struct ContentView_Previews: PreviewProvider {
         MainView()
     }
 }
+
